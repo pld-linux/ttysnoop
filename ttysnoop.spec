@@ -11,7 +11,6 @@ Patch0:		%{name}-%{version}-glibc.patch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sbindir	/sbin
-%define		_sysconfidir	/etc
 
 %description
 The package allows you to snoop on login tty's through another
@@ -33,13 +32,13 @@ wej¶cia/wyj¶cia do niej.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfidir},%{_sbindir},%{_mandir}/man8} \
-	$RPM_BUILD_ROOT/%{_var}/spool/%{name}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_sbindir},%{_mandir}/man8} \
+	$RPM_BUILD_ROOT%{_var}/spool/%{name}
 
 install ttysnoop{,s}	$RPM_BUILD_ROOT%{_sbindir}
 install ttysnoop.8	$RPM_BUILD_ROOT%{_mandir}/man8
 echo ".so ttysnoop.8" > $RPM_BUILD_ROOT%{_mandir}/man8/ttysnoops.8
-install snooptab.dist	$RPM_BUILD_ROOT%{_sysconfidir}/snooptab
+install snooptab.dist	$RPM_BUILD_ROOT%{_sysconfdir}/snooptab
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -47,7 +46,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README
-%attr(640,root,root) %config(noreplace) %{_sysconfidir}/snooptab
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/snooptab
 %attr(755,root,root) %{_sbindir}/*
 %attr(700,root,root) %dir %{_var}/spool/%{name}
 %{_mandir}/man8/*
