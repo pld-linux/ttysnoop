@@ -6,6 +6,7 @@ Release:	9
 License:	distributable
 Group:		Applications/Terminal
 Source0:	ftp://sunsite.unc.edu/pub/Linux/utils/terminal/%{name}-%{version}.tar.gz
+# Source0-md5:	85ba8fcac7b1a3a103fe632eef26a92d
 Patch0:		%{name}-%{version}-glibc.patch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
