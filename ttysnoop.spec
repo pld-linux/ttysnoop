@@ -18,7 +18,7 @@ The package allows you to snoop on login tty's through another tty-device or
 pseudo-tty. The snoop-tty becomes a 'clone' of the original tty, redirecting
 both input and output from/to it.
 
-%description
+%description -l pl
 Pakiet ten pozwala na podgl±danie i kontrolowanie loginowych tty poprzez inne
 urz±dzenie tego typu lub pseudo-tty. Urz±dzenie kontroluj±ce stajê siê klonem
 pierwotnego tty, przekierowuj±c strumieñ wej¶cia/wyj¶cia do niej. 
@@ -28,15 +28,19 @@ pierwotnego tty, przekierowuj±c strumieñ wej¶cia/wyj¶cia do niej.
 %patch -p1
 
 %build
-make CCOPTS="$RPM_OPT_FLAGS"
+make OPT="$RPM_OPT_FLAGS"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/{%{_sysconfidir},%{_sbindir},%{_mandir}/man8}
+install -d $RPM_BUILD_ROOT/%{_sysconfidir}
+install -d $RPM_BUILD_ROOT/%{_sbindir}
+install -d $RPM_BUILD_ROOT/%{_mandir}/man8
+install -d $RPM_BUILD_ROOT/%{_var}/spool/%{name}
 
-install -s ttysnoop{,s} $RPM_BUILD_ROOT%{_sbindir}
-install ttysnoop.8 $RPM_BUILD_ROOT%{_mandir}/man8
-install snooptab.dist $RPM_BUILD_ROOT%{_sysconfidir}/snooptab
+install -s ttysnoop{,s}	$RPM_BUILD_ROOT%{_sbindir}
+install ttysnoop.8	$RPM_BUILD_ROOT%{_mandir}/man8
+echo ".so ttysnoop.8" > $RPM_BUILD_ROOT%{_mandir}/man8/ttysnoops.8
+install snooptab.dist	$RPM_BUILD_ROOT%{_sysconfidir}/snooptab
 
 gzip -9nf  $RPM_BUILD_ROOT%{_mandir}/man8/* \
 	README
@@ -46,4 +50,5 @@ gzip -9nf  $RPM_BUILD_ROOT%{_mandir}/man8/* \
 %doc README.gz 
 %attr(640,root,root) %config(noreplace) %{_sysconfidir}/snooptab
 %attr(755,root,root) %{_sbindir}/*
+%attr(700,root,root) %dir %{_var}/spool/%{name}
 %{_mandir}/man8/*
