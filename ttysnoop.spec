@@ -1,9 +1,9 @@
 Summary:	Program to snoop on a TTY through another
-Summary(pl):	Program s³u¿acy do snoopowania jednej konsoli za pomoc± drugiej
+Summary(pl):	Program s³u¿acy do kontrolowania jednej konsoli za pomoc± innej
 Name:		ttysnoop 
 Version:	0.12c 
 Release:	6
-Source:		ftp://sunsite.unc.edu:/pub/Linux/utils/terminal/%{name}-%{version}.tar.gz
+Source:		ftp://sunsite.unc.edu/pub/Linux/utils/terminal/%{name}-%{version}.tar.gz
 Patch:		%{name}-%{version}-glibc.patch
 Copyright:	distributable
 Group:		Utilities/Terminal
@@ -17,6 +17,11 @@ BuildRoot:	/tmp/%{name}-%{version}-root
 The package allows you to snoop on login tty's through another tty-device or
 pseudo-tty. The snoop-tty becomes a 'clone' of the original tty, redirecting
 both input and output from/to it.
+
+%description
+Pakiet ten pozwala na podgl±danie i kontrolowanie loginowych tty poprzez inne
+urz±dzenie tego typu lub pseudo-tty. Urz±dzenie kontroluj±ce stajê siê klonem
+pierwotnego tty, przekierowuj±c strumieñ wej¶cia/wyj¶cia do niej. 
 
 %prep
 %setup -q
