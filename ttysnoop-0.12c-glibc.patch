@@ -1,73 +1,127 @@
-diff -uN ttysnoop-0.12c/Makefile ttysnoop-0.12c.glibc/Makefile
---- ttysnoop-0.12c/Makefile	Sat Mar 14 00:38:22 1998
-+++ ttysnoop-0.12c.glibc/Makefile	Sat Mar 14 00:36:38 1998
-@@ -23,7 +23,7 @@
- all:		ttysnoops ttysnoop
+diff -urN ttysnoop-0.12c.org/Makefile ttysnoop-0.12c/Makefile
+--- ttysnoop-0.12c.org/Makefile	Wed Feb 16 23:06:21 2000
++++ ttysnoop-0.12c/Makefile	Wed Feb 16 23:06:28 2000
+@@ -6,13 +6,13 @@
  
- ttysnoops:	$(SERVEROBJS)
--		$(CC) $(SERVEROBJS) -o ttysnoops $(LIBS)
-+		$(CC) $(SERVEROBJS) -o ttysnoops $(LIBS) -lcrypt
+ # Without shadow support
  
- ttysnoop:	$(CLIENTOBJS)
- 		$(CC) $(CLIENTOBJS) -o ttysnoop $(LIBS)
-Binary files ttysnoop-0.12c/common.o and ttysnoop-0.12c.glibc/common.o differ
-Binary files ttysnoop-0.12c/ttysnoop and ttysnoop-0.12c.glibc/ttysnoop differ
-diff -uN ttysnoop-0.12c/ttysnoop.c ttysnoop-0.12c.glibc/ttysnoop.c
---- ttysnoop-0.12c/ttysnoop.c	Wed Sep  7 06:04:01 1994
-+++ ttysnoop-0.12c.glibc/ttysnoop.c	Sat Mar 14 00:37:16 1998
+-CCOPTS	= -O2
++CCOPTS	= $(OPT) -DSHADOW_PWD
+ LIBS	= 
+ 
+ # For shadow support
+ 
+ #CCOPTS	= -O2 -DSHADOW_PWD
+-#LIBS	= -lshadow
++LIBS	= -lcrypt
+ 
+ SERVEROBJS	= ttysnoops.o common.o
+ CLIENTOBJS	= ttysnoop.o common.o
+@@ -45,4 +45,4 @@
+ 		install -s ttysnoops /sbin
+ 		install -m 644 ttysnoop.8 /usr/man/man8/
+ 		@echo ... copy snooptab.dist to /etc/snooptab and edit it ...
+- 
+\ No newline at end of file
++ 
+diff -urN ttysnoop-0.12c.org/snooptab.dist ttysnoop-0.12c/snooptab.dist
+--- ttysnoop-0.12c.org/snooptab.dist	Wed Feb 16 23:06:21 2000
++++ ttysnoop-0.12c/snooptab.dist	Wed Feb 16 23:06:28 2000
+@@ -3,8 +3,8 @@
+ #
+ # tty		snoopdev	type	execpgm
+ #
+-ttyS1		/dev/tty7	login	/bin/login
+-ttyS2		/dev/tty8	login	/bin/login
++ttyS1		/dev/tty11	login	/bin/login
++ttyS2		/dev/tty12	login	/bin/login
+ #
+ # remember to inform your gettys on the above lines 
+ # that /etc/ttysnoops is the login program now
+diff -urN ttysnoop-0.12c.org/ttysnoop.c ttysnoop-0.12c/ttysnoop.c
+--- ttysnoop-0.12c.org/ttysnoop.c	Wed Feb 16 23:06:21 2000
++++ ttysnoop-0.12c/ttysnoop.c	Wed Feb 16 23:06:28 2000
 @@ -14,8 +14,8 @@
  #include <sys/stat.h>
  #include <sys/ioctl.h>
  #include <sys/socket.h>
 -#include <linux/time.h>
 -#include <linux/un.h>
-+/* #include <linux/time.h>
-+#include <linux/un.h> */
++#include <sys/time.h>
++#include <sys/un.h>
  #include <stdio.h>
  #include <stdlib.h>
  #include <stdarg.h>
-@@ -32,6 +32,13 @@
- #define BUFF_SIZE	256
- 
- char buff[BUFF_SIZE];
-+
-+#define UNIX_PATH_MAX   108
-+
-+struct sockaddr_un {
-+	unsigned short sun_family;      /* AF_UNIX */
-+	char sun_path[UNIX_PATH_MAX];   /* pathname */
-+}; 
- 
- int main (int argc, char *argv[])
- {
-Binary files ttysnoop-0.12c/ttysnoop.o and ttysnoop-0.12c.glibc/ttysnoop.o differ
-Binary files ttysnoop-0.12c/ttysnoops and ttysnoop-0.12c.glibc/ttysnoops differ
-diff -uN ttysnoop-0.12c/ttysnoops.c ttysnoop-0.12c.glibc/ttysnoops.c
---- ttysnoop-0.12c/ttysnoops.c	Thu Mar 21 10:47:08 1996
-+++ ttysnoop-0.12c.glibc/ttysnoops.c	Sat Mar 14 00:36:05 1998
+diff -urN ttysnoop-0.12c.org/ttysnoops.c ttysnoop-0.12c/ttysnoops.c
+--- ttysnoop-0.12c.org/ttysnoops.c	Wed Feb 16 23:06:21 2000
++++ ttysnoop-0.12c/ttysnoops.c	Wed Feb 16 23:07:20 2000
 @@ -22,8 +22,8 @@
  #include <sys/ioctl.h>
  #include <sys/socket.h>
  #include <sys/syslog.h>
 -#include <linux/time.h>
 -#include <linux/un.h>
-+/* #include <linux/time.h> */
-+/* #include <linux/un.h> */
++#include <sys/time.h>
++#include <sys/un.h>
  #include <stdio.h>
  #include <stdlib.h>
  #include <stdarg.h>
-@@ -425,6 +425,13 @@
- }
- 
- /* main program */
-+
-+#define UNIX_PATH_MAX   108
-+
-+struct sockaddr_un {
-+	unsigned short sun_family;      /* AF_UNIX */
-+	char sun_path[UNIX_PATH_MAX];   /* pathname */
-+};
- 
+@@ -36,6 +36,7 @@
+ #include <pwd.h>
+ #include <utmp.h>
+ #include <errno.h>
++#include <crypt.h>
+ #ifdef SHADOW_PWD
+ #include <shadow.h>
+ #endif
+@@ -336,7 +337,7 @@
+ 		printf ("Connected to %s snoop server...\r\n", ptynam);
+ 		printf ("%s (ASCII %d) to suspend, %s (ASCII %d) to terminate.\r\n",
+ 			SC_STRING, SUSP_CHAR, TC_STRING, TERM_CHAR);
+-		printf ("Snoop password:"); fflush (stdout);
++		printf ("Snoop password (%s):", SNOOPUSER); fflush (stdout);
+ 		if (inputs(buff, 16, stdin) == 0)
+ 		{
+ #ifndef SHADOW_PWD
+@@ -429,9 +430,10 @@
  int main (int argc, char *argv[])
  {
-Binary files ttysnoop-0.12c/ttysnoops.o and ttysnoop-0.12c.glibc/ttysnoops.o differ
+ 	struct sockaddr_un serv_addr, cli_addr;
++	int len = sizeof(struct sockaddr_un);
+ 	fd_set readset;
+ 	struct utmp utmp;
+-	int ptyfd, servfd, len, n, sel, susp = 0;
++	int ptyfd, servfd, n, sel, susp = 0;
+ 
+ 	if (!isatty(STDIN_FILENO))
+ 		errorf ("stdin is not a tty\n");
+@@ -490,17 +492,17 @@
+ 		/* create the main server socket */
+ 		
+ 		if ((servfd = socket(AF_UNIX, SOCK_STREAM, 0)) < 0)
+-			errorf ("can't create server socket\n");
++			errorf ("can't create server socket: %m\n");
+ 		
+ 		sprintf (sockname, "%s/%s", SPOOLDIR, ptynam);
+ 		unlink (sockname);
+ 		serv_addr.sun_family = AF_UNIX;
+ 		strncopy (serv_addr.sun_path, sockname);
+ 		if (bind(servfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0)
+-			errorf ("can't bind server socket (%s)\n", sockname);
++			errorf ("can't bind server socket (%s): %m\n", sockname);
+ 			
+ 		if (listen(servfd, 5) < 0)
+-			errorf ("can't set up listen buffers for server socket\n");
++			errorf ("can't set up listen buffers for server socket: %m\n");
+ 		
+ 		/* update fdmax */
+ 		
+@@ -584,7 +586,7 @@
+ 			/* a ttysnoop client wants to connect, create socket */
+ 			
+ 			if ((authfd = accept(servfd, (struct sockaddr *) &cli_addr, &len)) < 0)
+-				errorf ("can't accept on server socket\n");
++				errorf ("can't accept on server socket: %m\n");
+ 			else
+ 			{
+ 				susp = 0;
