@@ -10,11 +10,13 @@ Group:		Utilities/Terminal
 Group(pl):	U¿ytki/Terminal
 BuildRoot:	/tmp/%{name}-%{version}-root
 
+%define		_sbindir	/sbin
+%define		_sysconfidir	/etc
 
 %description
-The package allows you to snoop on login tty's through another tty-device       
-or pseudo-tty. The snoop-tty becomes a 'clone' of the original tty,             
-redirecting both input and output from/to it.
+The package allows you to snoop on login tty's through another tty-device or
+pseudo-tty. The snoop-tty becomes a 'clone' of the original tty, redirecting
+both input and output from/to it.
 
 %prep
 %setup -q
@@ -25,21 +27,18 @@ make "RPM_OPTS=$RPM_OPT_FLAGS"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/{etc,sbin,usr/share/man/man8}
+install -d $RPM_BUILD_ROOT/{etc,%{_sbindir},%{_mandir}/man8}
 
-install -s ttysnoop{,s} $RPM_BUILD_ROOT/sbin
-install ttysnoop.8 $RPM_BUILD_ROOT/usr/share/man/man8
-install snooptab.dist $RPM_BUILD_ROOT/etc/snooptab
+install -s ttysnoop{,s} $RPM_BUILD_ROOT%{_sbindir}
+install ttysnoop.8 $RPM_BUILD_ROOT%{_mandir}/man8
+install snooptab.dist $RPM_BUILD_ROOT%{_sysconfidir}/snooptab
 
-gzip -9nf  $RPM_BUILD_ROOT/usr/share/man/man8/*
-gzip -9nf  README
+gzip -9nf  $RPM_BUILD_ROOT%{_mandir}/man8/* \
+	README
 
 %files
 %defattr(644,root,root,755)
-
-%config /etc/snooptab
 %doc README.gz 
-
-%attr(755,root,root) /sbin/ttysnoop
-%attr(755,root,root) /sbin/ttysnoops
-/usr/share/man/man8/ttysnoop.8.gz
+%attr(640,root,root) %config(noreplace) %{_sysconfidir}snooptab
+%attr(755,root,root) %{_sbindir}/*
+%{_mandir}/man8/*
