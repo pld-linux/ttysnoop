@@ -2,12 +2,12 @@ Summary:	Program to snoop on a TTY through another
 Summary(pl):	Program s³u¿acy do kontrolowania jednej konsoli za pomoc± innej
 Name:		ttysnoop 
 Version:	0.12c 
-Release:	7
-Source:		ftp://sunsite.unc.edu/pub/Linux/utils/terminal/%{name}-%{version}.tar.gz
-Patch:		%{name}-%{version}-glibc.patch
-Copyright:	distributable
+Release:	8
 Group:		Utilities/Terminal
 Group(pl):	U¿ytki/Terminal
+Copyright:	distributable
+Source:		ftp://sunsite.unc.edu/pub/Linux/utils/terminal/%{name}-%{version}.tar.gz
+Patch:		%{name}-%{version}-glibc.patch
 BuildRoot:	/tmp/%{name}-%{version}-root
 
 %define		_sbindir	/sbin
@@ -32,10 +32,8 @@ make OPT="$RPM_OPT_FLAGS"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/%{_sysconfidir}
-install -d $RPM_BUILD_ROOT/%{_sbindir}
-install -d $RPM_BUILD_ROOT/%{_mandir}/man8
-install -d $RPM_BUILD_ROOT/%{_var}/spool/%{name}
+install -d $RPM_BUILD_ROOT{%{_sysconfidir},%{_sbindir},%{_mandir}/man8} \
+	$RPM_BUILD_ROOT/%{_var}/spool/%{name}
 
 install -s ttysnoop{,s}	$RPM_BUILD_ROOT%{_sbindir}
 install ttysnoop.8	$RPM_BUILD_ROOT%{_mandir}/man8
