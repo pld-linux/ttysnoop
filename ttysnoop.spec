@@ -40,14 +40,12 @@ install ttysnoop.8	$RPM_BUILD_ROOT%{_mandir}/man8
 echo ".so ttysnoop.8" > $RPM_BUILD_ROOT%{_mandir}/man8/ttysnoops.8
 install snooptab.dist	$RPM_BUILD_ROOT%{_sysconfidir}/snooptab
 
-gzip -9nf README
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README.gz
+%doc README
 %attr(640,root,root) %config(noreplace) %{_sysconfidir}/snooptab
 %attr(755,root,root) %{_sbindir}/*
 %attr(700,root,root) %dir %{_var}/spool/%{name}
