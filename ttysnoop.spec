@@ -23,7 +23,7 @@ both input and output from/to it.
 %patch -p1
 
 %build
-make "RPM_OPTS=$RPM_OPT_FLAGS"
+make CCOPTS="$RPM_OPT_FLAGS"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -39,6 +39,6 @@ gzip -9nf  $RPM_BUILD_ROOT%{_mandir}/man8/* \
 %files
 %defattr(644,root,root,755)
 %doc README.gz 
-%attr(640,root,root) %config(noreplace) %{_sysconfidir}snooptab
+%attr(640,root,root) %config(noreplace) %{_sysconfidir}/snooptab
 %attr(755,root,root) %{_sbindir}/*
 %{_mandir}/man8/*
