@@ -3,10 +3,10 @@ Summary(pl):	Program s³u¿acy do kontrolowania jednej konsoli za pomoc± innej
 Name:		ttysnoop 
 Version:	0.12c 
 Release:	8
+License:	distributable
 Group:		Applications/Terminal
 Group(de):	Applikationen/Terminal
 Group(pl):	Aplikacje/Terminal
-Copyright:	distributable
 Source0:	ftp://sunsite.unc.edu/pub/Linux/utils/terminal/%{name}-%{version}.tar.gz
 Patch0:		%{name}-%{version}-glibc.patch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
