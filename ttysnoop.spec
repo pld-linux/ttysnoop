@@ -32,7 +32,7 @@ install ttysnoop.8 $RPM_BUILD_ROOT/usr/share/man/man8
 install snooptab.dist $RPM_BUILD_ROOT/etc/snooptab
 
 gzip -9nf $RPM_BUILD_ROOT/usr/share/man/man8/*
-gzip README
+gzip -9nf README
 
 %files
 %defattr(644,root,root,755)
