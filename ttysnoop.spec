@@ -1,7 +1,7 @@
 Summary:	Program to snoop on a TTY through another
 Summary(pl):	Program s³u¿acy do kontrolowania jednej konsoli za pomoc± innej
-Name:		ttysnoop 
-Version:	0.12c 
+Name:		ttysnoop
+Version:	0.12c
 Release:	9
 License:	distributable
 Group:		Applications/Terminal
@@ -47,7 +47,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README.gz 
+%doc README.gz
 %attr(640,root,root) %config(noreplace) %{_sysconfidir}/snooptab
 %attr(755,root,root) %{_sbindir}/*
 %attr(700,root,root) %dir %{_var}/spool/%{name}
