@@ -28,7 +28,7 @@ pierwotnego tty, przekierowuj±c strumieñ wej¶cia/wyj¶cia do niej.
 %patch -p1
 
 %build
-make OPT="$RPM_OPT_FLAGS"
+%{__make} OPT="$RPM_OPT_FLAGS"
 
 %install
 rm -rf $RPM_BUILD_ROOT
