@@ -8,7 +8,7 @@ Group(pl):	U¿ytki/Terminal
 Copyright:	distributable
 Source:		ftp://sunsite.unc.edu/pub/Linux/utils/terminal/%{name}-%{version}.tar.gz
 Patch:		%{name}-%{version}-glibc.patch
-BuildRoot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sbindir	/sbin
 %define		_sysconfidir	/etc
