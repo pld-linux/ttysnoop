@@ -4,7 +4,7 @@ Name:		ttysnoop
 Version:	0.12c 
 Release:	8
 Group:		Utilities/Terminal
-Group(pl):	U¿ytki/Terminal
+Group(pl):	Narzêdzia/Terminal
 Copyright:	distributable
 Source:		ftp://sunsite.unc.edu/pub/Linux/utils/terminal/%{name}-%{version}.tar.gz
 Patch:		%{name}-%{version}-glibc.patch
