@@ -20,8 +20,8 @@ original tty, redirecting both input and output from/to it.
 %description -l pl
 Pakiet ten pozwala na podgl±danie i kontrolowanie loginowych tty
 poprzez inne urz±dzenie tego typu lub pseudo-tty. Urz±dzenie
-kontroluj±ce stajê siê klonem pierwotnego tty, przekierowuj±c strumieñ
-wej¶cia/wyj¶cia do niej.
+kontroluj±ce staje siê klonem pierwotnego tty, przekierowuj±c strumieñ
+wej¶cia/wyj¶cia do niego.
 
 %prep
 %setup -q
