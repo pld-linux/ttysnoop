@@ -28,7 +28,9 @@ wej¶cia/wyj¶cia do niego.
 %patch -p1
 
 %build
-%{__make} OPT="%{rpmcflags}"
+%{__make} \
+	CC="%{__cc}" \
+	OPT="%{rpmcflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
