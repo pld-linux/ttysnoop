@@ -1,5 +1,5 @@
 Summary:	Program to snoop on a TTY through another
-Summary(pl.UTF-8):   Program służący do kontrolowania jednej konsoli za pomocą innej
+Summary(pl.UTF-8):	Program służący do kontrolowania jednej konsoli za pomocą innej
 Name:		ttysnoop
 Version:	0.12c
 Release:	11
