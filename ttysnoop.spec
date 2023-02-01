@@ -2,7 +2,7 @@ Summary:	Program to snoop on a TTY through another
 Summary(pl.UTF-8):	Program służący do kontrolowania jednej konsoli za pomocą innej
 Name:		ttysnoop
 Version:	0.12c
-Release:	12
+Release:	13
 License:	distributable
 Group:		Applications/Terminal
 Source0:	ftp://sunsite.unc.edu/pub/Linux/utils/terminal/%{name}-%{version}.tar.gz
